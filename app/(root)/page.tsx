@@ -1,58 +1,75 @@
 'use client';
 
 import { LeaderboardTable } from "@/components/roundone-leaderboard/leaderboard";
+import axios from "axios";
+import { log } from "console";
+import { useEffect, useState } from "react";
 
-
-const leaderboardData = [
-  {
-    rank: 1,
-    name: 'Soubhik',
-    clarity: 9.5,
-    actionability: 9.0,
-    total: 27.5,
-    emoji: '🥇',
-    avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg',
-    gradient: 'from-yellow-50 to-amber-50 hover:from-yellow-100 hover:to-amber-100',
-  },
-  {
-    rank: 2,
-    name: 'Jhansi',
-    clarity: 9.0,
-    actionability: 8.8,
-    total: 26.3,
-    emoji: '🥈',
-    avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg',
-    gradient: 'from-gray-50 to-slate-50 hover:from-gray-100 hover:to-slate-100',
-  },
-  {
-    rank: 3,
-    name: 'Omkar',
-    clarity: 8.7,
-    actionability: 8.5,
-    total: 26.1,
-    emoji: '🥉',
-    avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg',
-    gradient: 'from-orange-50 to-amber-50 hover:from-orange-100 hover:to-amber-100',
-  },
-  {
-    rank: 4,
-    name: 'Deepti',
-    clarity: 8.2,
-    actionability: 8.0,
-    total: 24.6,
-    avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg',
-  },
-  {
-    rank: 5,
-    name: 'Naveen',
-    clarity: 7.5,
-    actionability: 8.1,
-    total: 23.5,
-    avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-4.jpg',
-  },
-];
+// const leaderboardData = [
+//   {
+//     rank: 1,
+//     name: 'Soubhik',
+//     clarity: 9.5,
+//     actionability: 9.0,
+//     total: 27.5,
+//     emoji: '🥇',
+//     avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg',
+//     gradient: 'from-yellow-50 to-amber-50 hover:from-yellow-100 hover:to-amber-100',
+//   },
+//   {
+//     rank: 2,
+//     name: 'Jhansi',
+//     clarity: 9.0,
+//     actionability: 8.8,
+//     total: 26.3,
+//     emoji: '🥈',
+//     avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg',
+//     gradient: 'from-gray-50 to-slate-50 hover:from-gray-100 hover:to-slate-100',
+//   },
+//   {
+//     rank: 3,
+//     name: 'Omkar',
+//     clarity: 8.7,
+//     actionability: 8.5,
+//     total: 26.1,
+//     emoji: '🥉',
+//     avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg',
+//     gradient: 'from-orange-50 to-amber-50 hover:from-orange-100 hover:to-amber-100',
+//   },
+//   {
+//     rank: 4,
+//     name: 'Deepti',
+//     clarity: 8.2,
+//     actionability: 8.0,
+//     total: 24.6,
+//     avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg',
+//   },
+//   {
+//     rank: 5,
+//     name: 'Naveen',
+//     clarity: 7.5,
+//     actionability: 8.1,
+//     total: 23.5,
+//     avatar: 'https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-4.jpg',
+//   },
+// ];
 
 export default function LeaderboardPage() {
+  const [leaderboardData, setLeaderboardData] = useState([]);
+
+  useEffect(() => {
+    console.log(process.env.NEXT_PUBLIC_BACKEND_URL)
+    axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/leaderboard`) 
+      .then((res) => {
+        console.log('success');
+
+        setLeaderboardData(res.data.sorted_score);
+      })
+      .catch((err) => {
+        console.error('Error fetching leaderboard:', err);
+      })
+  }, []);
+
   return (
     <main className="max-w-7xl mx-auto px-6 py-12">
       {/* Header Section */}

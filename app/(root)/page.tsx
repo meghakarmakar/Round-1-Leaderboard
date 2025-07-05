@@ -2,7 +2,6 @@
 
 import { LeaderboardTable } from "@/components/roundone-leaderboard/leaderboard";
 import axios from "axios";
-import { log } from "console";
 import { useEffect, useState } from "react";
 
 // const leaderboardData = [
